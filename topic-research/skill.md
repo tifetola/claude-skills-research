@@ -17,15 +17,21 @@ Example: `/topic-research risevision.com`
 Ask the user these questions all at once before doing anything else:
 
 1. **What is the primary commercial goal for this engagement?** (e.g., "rank for competitor alternatives in enterprise manufacturing", "drive more trials from schools", "own the digital signage content space before a competitor does")
-2. **What materials do you have?** Tell me what's available — I'll guide you through sharing each one:
+2. **Do you have sales call recordings or transcripts?** I can pull these automatically if a call recording MCP is connected, or you can paste/share them directly:
+   - **Fathom** — if Fathom MCP is connected, I can search and fetch call summaries and transcripts automatically. Just say "Fathom is connected" and give me any search terms (client name, company, product) to find the right calls.
+   - **Fireflies** — same: if Fireflies MCP is connected, say so and give me search terms.
+   - **Other call recording tool** — name it; if an MCP is connected I'll try to use it.
+   - **No MCP but have transcripts** — paste them or share the file and I'll process them in Phase 1D.
+   - **None** — that's fine, just say so.
+3. **What other materials do you have?** Tell me what's available — I'll guide you through sharing each one:
    - SEO onboarding form
-   - Sales or discovery call transcripts
    - Client Slack or email threads
    - Competitor list the client has named
    - Existing content inventory or sitemap URL
    - Product or positioning docs
    - Any ICP preferences or exclusions the client stated explicitly
-3. **Output file path:** Where should the final topic plan be saved? Default: `./topic-plan-[domain]-[date].md`
+4. **Does this client have any other MCP server connected?** (e.g. Google Search Console, a CMS, analytics, or a custom integration). If yes, describe it — I may be able to pull live rankings, traffic data, or indexed pages directly from their stack during Phase 1.
+5. **Output file path:** Where should the final topic plan be saved? Default: `./topic-plan-[domain]-[date].md`
 
 Wait for all answers before proceeding.
 
@@ -59,7 +65,12 @@ From all pages, extract specifically: exact product and feature names (not parap
 - `site-explorer-organic-keywords` (limit: 50) — current rankings, especially positions 1–20
 - `site-explorer-organic-competitors` (limit: 10) — top organic competitors
 
-### 1C. GSC Data (if available)
+### 1C. Client MCP and GSC Data (if available)
+
+**Call recording MCPs (Fathom / Fireflies / other):** If the user confirmed one in Step 0, use it now to fetch sales call content for this client. Search by client name, company, domain, or product as appropriate. Extract: pain points, competitor mentions, objections raised, ICP signals, features discussed, outcomes the client sells, anything the buyer said about their situation. Treat this as the richest source of raw commercial intelligence in the pipeline — weight it heavily.
+
+**Other client MCPs:** If the user confirmed a GSC, CMS, or analytics MCP in Step 0, use it now. Pull whatever is accessible: live keyword rankings, indexed pages, top-traffic pages, GSC queries, CMS content inventory, etc. Note what you retrieved and from which tool.
+
 - `gsc-keywords` (limit: 50) — what queries are already sending traffic
 - `gsc-pages` (limit: 20) — which pages are performing
 
@@ -138,7 +149,7 @@ Turn account intelligence into structured content opportunity angles. Not keywor
 
 Review the Account Intelligence Document and identify signals across all seven opportunity types:
 
-**Competitor signals:** Which competitors were named in calls or comms? Which appear in Ahrefs competitors? Which does the client specifically fear or want to displace?
+**Competitor signals:** Which competitors were named in calls or comms? Which appear in Ahrefs competitors? Which does the client specifically fear or want to displace? These drive alternatives, pricing, review, and comparison opportunities.
 
 **Objection signals:** What hesitations or friction came up in sales? Implementation, cost, switching, migration concerns?
 
@@ -148,7 +159,11 @@ Review the Account Intelligence Document and identify signals across all seven o
 
 **Industry and vertical signals:** Which verticals were explicitly called out? Which do they want to enter?
 
-**Pain and problem signals:** What language did customers use to describe their situation before finding the product? What would they search before knowing the product exists?
+**Pain and problem signals:** What language did customers use to describe their situation before finding the product? What would they search before knowing the product exists? These are jobs-to-be-done opportunities — buyers who know they have a problem but haven't found the product yet.
+
+**Listicle signals:** What product category does this client belong to? Buyers shortlisting SaaS tools search "best X software" queries heavily — and AI engines cite these pages. Every named category, sub-category, and use-case variant is a potential listicle opportunity.
+
+**Commercial wildcard signals:** What tools does the ICP already use (integration plays)? Are there ROI, cost-justification, or switching-cost queries this product addresses? Are there niche ICP modifiers (company size, role, workflow) that haven't surfaced elsewhere?
 
 **Existing winner signals:** Which pages already drive traffic and pipeline? What adjacent opportunities do they create?
 
@@ -158,7 +173,7 @@ For each signal cluster, form one or more content opportunities. Format each as:
 
 ```
 ### [Opportunity Name]
-Type: [Competitor-led | Objection-led | Feature-led | Use-case-led | Industry-led | Pain-led | Winner expansion]
+Type: [Competitor-led | Competitor-pricing | Competitor-review | Competitor-comparison | Listicle-led | Objection-led | Feature-led | Use-case-led | Industry-led | Solution-led | Pain-led | JTBD | Commercial-wildcard | Winner expansion]
 Signal: [The specific evidence — a named competitor, a quoted objection, a product feature, a named ICP segment]
 Opportunity: [One sentence — what is this content for?]
 Commercial value: [Why does this help pipeline, not traffic?]
@@ -201,21 +216,38 @@ Work through opportunities in priority order (High → Medium → Low). Run Ahre
 
 | Type | Seed Patterns |
 |---|---|
-| Competitor-led | `[competitor] alternatives`, `alternatives to [competitor]`, `[client] vs [competitor]`, `best [competitor] alternatives` |
+| Listicle-led | `best [product category] software`, `top [product category] tools`, `best [product category] for [ICP role]`, `best [product category] for [industry]`, `best [product category] for [company size]`, `[product category] software comparison`, `[product category] tools list` |
+| Competitor-led | `[competitor] alternatives`, `alternatives to [competitor]`, `best [competitor] alternatives`, `[competitor] replacement` |
+| Competitor-comparison | `[client brand] vs [competitor]`, `[competitor] vs [client brand]`, `[competitor A] vs [competitor B]` |
+| Competitor-pricing | `[competitor] pricing`, `[competitor] cost`, `how much does [competitor] cost`, `[competitor] pricing plans`, `[competitor] price` |
+| Competitor-review | `[competitor] review`, `[competitor] reviews`, `[competitor] pros and cons`, `is [competitor] worth it` |
 | Objection-led | `[product category] migration`, `switching from [competitor]`, `[product category] implementation`, `[pain] solution` |
-| Feature-led | `[feature name] software`, `software with [feature]`, `[feature] for [ICP]` |
-| Use-case-led | `[product] for [use case]`, `[use case] software`, `best [product category] for [use case]` |
-| Industry-led | `[product category] for [industry]`, `[industry] [product category] software` |
-| Pain-led | `how to [solve the pain]`, `[pain noun] solution`, `[problem description] tool` |
+| Feature-led | `[feature name] software`, `software with [feature]`, `[feature] for [ICP]`, `[feature] automation` |
+| Use-case-led | `[product] for [use case]`, `[use case] software`, `best [product category] for [use case]`, `[use case] platform` |
+| Industry-led | `[product category] for [industry]`, `[industry] [product category] software`, `[industry] [use case] tools` |
+| Solution-led | `[outcome] software`, `[solution type] platform`, `how to [achieve the outcome the product delivers]` |
+| Pain-led / JTBD | `how to [solve the pain]`, `[pain noun] solution`, `[problem description] tool`, `best way to [job to be done]`, `automate [painful manual task]`, `reduce [cost/time/risk the product addresses]` |
+| Commercial-wildcard | `[product category] integration with [tool in ICP stack]`, `[competitor] to [solution type] migration`, `[product category] ROI`, `[product category] for [niche ICP modifier]`, `[job title] [product category] software` |
 | Winner expansion | `[existing top keyword] [adjacent modifier]`, `[topic cluster] [related subtopic]` |
 
 **Filter candidates:**
-- Include: global volume ≥ 50/mo (≥ 20/mo for named competitor alternatives — high-intent at any volume)
+- Include: global volume ≥ 50/mo (≥ 20/mo for named competitor alternatives, pricing, and reviews — high-intent at any volume)
 - Include: intent is clearly commercial or transactional, or informational but on the buyer journey
 - Exclude: volume is 0, navigational intent, too broad for the ICP, client already ranks positions 1–5
 - Flag: 0 volume but strategically important (new competitor, emerging feature term); KD 70+ but commercially critical
 
-Print a summary (total candidates by opportunity type, top 10 by volume, low-volume high-intent calls, any opportunities with no searchable demand). Then print the full candidate pool grouped by opportunity.
+**Keyword floor:** After validation, the candidate pool must contain at least **70 keywords** before entering Phase 4. If below 70, run additional `keywords-explorer-matching-terms` or `keywords-explorer-related-terms` calls on the thinnest opportunity types until the floor is met.
+
+Print a summary (total candidates by opportunity type, top 10 by volume, low-volume high-intent calls, any opportunities with no searchable demand). Then **print the full candidate pool as a table inline** — keywords first, no lengthy narrative before the data:
+
+```
+### Keyword Candidates — [Opportunity Type]
+
+| Keyword | Global Volume | KD | Intent | Notes |
+|---|---|---|---|---|
+```
+
+Repeat this table for each opportunity type.
 
 ---
 
@@ -352,10 +384,33 @@ Date: [date]
 - Keyword data: Ahrefs MCP (global volume unless otherwise noted)
 - SERP data: Ahrefs serp-overview + live WebSearch
 - Account intelligence sources: client website, [list materials provided]
+- Client MCP data used: [describe or "none"]
+- Guardrails applied: business-fit-filter (Phase 5), keyword-validation (Phase 3), cannibalization check (Phase 5 Gate 5)
 - Date of data: [date]
 ```
 
-After saving, print:
+After saving, also **print the full Prioritized Topic Plan inline in the conversation** — the user should be able to read the complete prioritized list without opening the file. Use this inline format:
+
+```
+## Prioritized Topic Plan — [client domain]
+
+### Tier 1 — Build First (Score ≥ 14)
+
+| # | Topic / Primary Keyword | Format | Vol | KD | Score | Notes |
+|---|---|---|---|---|---|---|
+
+### Tier 2 — Build Next (Score 10–13)
+
+| # | Topic / Primary Keyword | Format | Vol | KD | Score | Notes |
+|---|---|---|---|---|---|---|
+
+### Tier 3 — Backlog (Score ≤ 9)
+
+| # | Topic / Primary Keyword | Format | Vol | KD | Score | Notes |
+|---|---|---|---|---|---|---|
+```
+
+Then confirm:
 ```
 Topic plan saved to [path] — [N] topics — Tier 1: [N] | Tier 2: [N] | Tier 3: [N]
 ```
